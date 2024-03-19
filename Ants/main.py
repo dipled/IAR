@@ -4,6 +4,7 @@ import datetime
 from ant import *
 from logic import *
 
+
 color = (255, 0, 0)
 gridDisplay = pygame.display.set_mode((700, 700))
 

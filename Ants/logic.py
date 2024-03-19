@@ -33,30 +33,30 @@ def get_vision(ant: Ant, grid: list[list[int]], height, width):
     ant.dead_ants_around = 0
     vision = 1
 
-    proximo = get_element(grid, ant.x-vision, ant.y, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x+vision, ant.y, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x, ant.y-vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x, ant.y+vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x+vision, ant.y+vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x-vision, ant.y-vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x-vision, ant.y+vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
-    proximo = get_element(grid, ant.x+vision, ant.y-vision, height, width)
-    if proximo == 2:
-        ant.dead_ants_around = ant.dead_ants_around+vision
+    next = get_element(grid, ant.x-vision, ant.y, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x+vision, ant.y, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x, ant.y-vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x, ant.y+vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x+vision, ant.y+vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x-vision, ant.y-vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x-vision, ant.y+vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
+    next = get_element(grid, ant.x+vision, ant.y-vision, height, width)
+    if next == 2:
+        ant.dead_ants_around = ant.dead_ants_around+1
 
 
 def update_dead_ants(dead_ants: list[DeadAnt], grid = list[list[int]]):
