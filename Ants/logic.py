@@ -1,8 +1,8 @@
 import random
 from ant import Ant, DeadAnt
 
-def picks(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt]):
-    odds = (1 - 1/50 * ant.dead_ants_around**2)
+def picks(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt], vision):
+    odds = (1 - 1/50 * (ant.dead_ants_around**2)/vision)
     if random.uniform(0, 1) <= odds and not ant.is_carrying and dead_grid[ant.x][ant.y] == 2:
         ant.is_carrying = True
         dead_grid[ant.x][ant.y] = 0
@@ -11,9 +11,9 @@ def picks(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt]):
                 dead_ant.carrier = ant
                 dead_ant.carried = True
 
-def drops(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt]):
-    chance = 1/50 * ant.dead_ants_around**2
-    if random.uniform(0, 1) <= chance and ant.is_carrying and dead_grid[ant.x][ant.y]!=2:
+def drops(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt], vision):
+    odds = (1/50 * (ant.dead_ants_around**2)/vision)
+    if random.uniform(0, 1) <= odds and ant.is_carrying and dead_grid[ant.x][ant.y]!=2:
         ant.is_carrying = False
         dead_grid[ant.x][ant.y] = 2
 
@@ -26,37 +26,38 @@ def drops(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt]):
 
 
 def get_element(grid, x, y, height, width):
+    #forma arcana de dar a volta na viswão ><
     return grid[x % height][y % width]
 
 
-def get_vision(ant: Ant, grid: list[list[int]], height, width):
+def get_vision(ant: Ant, grid: list[list[int]], height, width, vision):
     ant.dead_ants_around = 0
-    vision = 1
 
-    next = get_element(grid, ant.x-vision, ant.y, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x+vision, ant.y, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x, ant.y-vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x, ant.y+vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x+vision, ant.y+vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x-vision, ant.y-vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x-vision, ant.y+vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
-    next = get_element(grid, ant.x+vision, ant.y-vision, height, width)
-    if next == 2:
-        ant.dead_ants_around = ant.dead_ants_around+1
+    for i in range(1,vision+1):
+        next = get_element(grid, ant.x-i, ant.y, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x+i, ant.y, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x, ant.y-i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x, ant.y+i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x+i, ant.y+i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x-i, ant.y-i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x-i, ant.y+i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
+        next = get_element(grid, ant.x+i, ant.y-i, height, width)
+        if next == 2:
+            ant.dead_ants_around = ant.dead_ants_around+1
 
 
 def update_dead_ants(dead_ants: list[DeadAnt], grid = list[list[int]]):
@@ -92,7 +93,7 @@ def move_border(ant, grid, direction, height, width):
             grid[ant.x][ant.y] = 1
 
 
-def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_grid: list[list[int]], height, width):
+def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_grid: list[list[int]], height, width, vision):
     cont = 0
     for ant in ants:
         direction = random.randint(1, 4)
@@ -100,68 +101,141 @@ def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_g
             if ant.x == 0:
 
                 move_border(ant, grid, direction, height, width)
-                get_vision(ant, dead_grid, height, width)
-                picks(ant, dead_grid, dead_ants)
-                drops(ant, dead_grid, dead_ants)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
 
             else:
                 if grid[ant.x-1][ant.y] != 1:
                     grid[ant.x][ant.y] = 0
                     ant.x = ant.x - 1
                     grid[ant.x][ant.y] = 1
-                    get_vision(ant, dead_grid, height, width)
-                    picks(ant, dead_grid, dead_ants)
-                    drops(ant, dead_grid, dead_ants)
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
 
         if direction == 2:
             if ant.x == width-1:
 
                 move_border(ant, grid, direction, height, width)
-                get_vision(ant, dead_grid, height, width)
-                picks(ant, dead_grid, dead_ants)
-                drops(ant, dead_grid, dead_ants)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
 
             else:
                 if grid[ant.x+1][ant.y] != 1:
                     grid[ant.x][ant.y] = 0
                     ant.x = ant.x + 1
                     grid[ant.x][ant.y] = 1
-                    get_vision(ant, dead_grid, height, width)
-                    picks(ant, dead_grid, dead_ants)
-                    drops(ant, dead_grid, dead_ants)
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
 
         if direction == 3:
             if ant.y == 0:
 
                 move_border(ant, grid, direction, height, width)
-                get_vision(ant, dead_grid, height, width)
-                picks(ant, dead_grid, dead_ants)
-                drops(ant, dead_grid, dead_ants)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
 
             else:
                 if grid[ant.x][ant.y-1] != 1:
                     grid[ant.x][ant.y] = 0
                     ant.y = ant.y - 1
                     grid[ant.x][ant.y] = 1
-                    get_vision(ant, dead_grid, height, width)
-                    picks(ant, dead_grid, dead_ants)
-                    drops(ant, dead_grid, dead_ants)
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
 
         if direction == 4:
             if ant.y == height-1:
                 move_border(ant, grid, direction, height, width)
-                get_vision(ant, dead_grid, height, width)
-                picks(ant, dead_grid, dead_ants)
-                drops(ant, dead_grid, dead_ants)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
 
             else:
                 if grid[ant.x][ant.y+1] != 1:
                     grid[ant.x][ant.y] = 0
                     ant.y = ant.y + 1
                     grid[ant.x][ant.y] = 1
-                    get_vision(ant, dead_grid, height, width)
-                    picks(ant,dead_grid, dead_ants)
-                    drops(ant, dead_grid, dead_ants)
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
 
         cont = cont+1
 
+
+
+def moveEnd(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_grid: list[list[int]], height, width, vision):
+    cont = 0
+    for ant in ants:
+        direction = random.randint(1, 4)
+        if direction == 1:
+            if ant.x == 0:
+
+                move_border(ant, grid, direction, height, width)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
+
+            else:
+                if grid[ant.x-1][ant.y] != 1:
+                    grid[ant.x][ant.y] = 0
+                    ant.x = ant.x - 1
+                    grid[ant.x][ant.y] = 1
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
+
+        if direction == 2:
+            if ant.x == width-1:
+
+                move_border(ant, grid, direction, height, width)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
+
+            else:
+                if grid[ant.x+1][ant.y] != 1:
+                    grid[ant.x][ant.y] = 0
+                    ant.x = ant.x + 1
+                    grid[ant.x][ant.y] = 1
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
+
+        if direction == 3:
+            if ant.y == 0:
+
+                move_border(ant, grid, direction, height, width)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
+
+            else:
+                if grid[ant.x][ant.y-1] != 1:
+                    grid[ant.x][ant.y] = 0
+                    ant.y = ant.y - 1
+                    grid[ant.x][ant.y] = 1
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
+
+        if direction == 4:
+            if ant.y == height-1:
+                move_border(ant, grid, direction, height, width)
+                get_vision(ant, dead_grid, height, width, vision)
+                picks(ant, dead_grid, dead_ants, vision)
+                drops(ant, dead_grid, dead_ants, vision)
+
+            else:
+                if grid[ant.x][ant.y+1] != 1:
+                    grid[ant.x][ant.y] = 0
+                    ant.y = ant.y + 1
+                    grid[ant.x][ant.y] = 1
+                    get_vision(ant, dead_grid, height, width, vision)
+                    picks(ant, dead_grid, dead_ants, vision)
+                    drops(ant, dead_grid, dead_ants, vision)
+        if ant.is_carrying == False: ants.remove(ant)

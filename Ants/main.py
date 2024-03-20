@@ -5,6 +5,7 @@ from ant import *
 from logic import *
 
 
+vision = 1 #usa isso
 color = (255, 0, 0)
 gridDisplay = pygame.display.set_mode((700, 700))
 
@@ -19,8 +20,8 @@ grid_cell_width = 10
 ant_height = 10
 ant_width = 10
 
-ants = [Ant(grid) for i in range(100)]
-dead_ants = [DeadAnt(dead_grid) for i in range(500)]
+ants = [Ant(grid) for i in range(200)]
+dead_ants = [DeadAnt(dead_grid) for i in range(700)]
 
 
 def createSquare(x, y, color):
@@ -62,16 +63,26 @@ def show_grid():
 
 if __name__ == '__main__':
     
+    random.seed(str(datetime.datetime.now()))
+    iterations = 10_000
     done = False
-    contf = 0
+    move(ants, dead_ants, grid, dead_grid, height, width, vision)
+    show_grid()
+    pygame.image.save(gridDisplay, "experimento_visao_bidas_{}_inicial.png".format(vision))
 
-    while not done:
+    for c in range(0,iterations):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
-        random.seed(str(datetime.datetime.now()))
-        move(ants, dead_ants, grid, dead_grid, height, width)
-    # while True:
+        if done == True:break
+        move(ants, dead_ants, grid, dead_grid, height, width, vision)
         show_grid()
+    while len(ants) > 0 and done == False:
+        moveEnd(ants,dead_ants,grid,dead_grid,height,width,vision)
+        show_grid()
+        
+    pygame.image.save(gridDisplay, "experimento_visao_bidas_{}_final.png".format(vision))
+    # while True:
+    #chama funcao que faz as formigas vazias sumirem e as formigas carregadas rodarem ate dropar
     pygame.quit()
