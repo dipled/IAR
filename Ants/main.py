@@ -64,11 +64,11 @@ def show_grid():
 if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
-    iterations = 10_000
+    iterations = 100_000
     done = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()
-    pygame.image.save(gridDisplay, "experimento_visao_bidas_{}_inicial.png".format(vision))
+    pygame.image.save(gridDisplay, "experimento_visao_{}_inicial.png".format(vision))
 
     for c in range(0,iterations):
         for event in pygame.event.get():
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         moveEnd(ants,dead_ants,grid,dead_grid,height,width,vision)
         show_grid()
         
-    pygame.image.save(gridDisplay, "experimento_visao_bidas_{}_final.png".format(vision))
+    pygame.image.save(gridDisplay, "experimento_visao_{}_final.png".format(vision))
     # while True:
     #chama funcao que faz as formigas vazias sumirem e as formigas carregadas rodarem ate dropar
     pygame.quit()
