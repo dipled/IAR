@@ -238,4 +238,6 @@ def moveEnd(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dea
                     get_vision(ant, dead_grid, height, width, vision)
                     picks(ant, dead_grid, dead_ants, vision)
                     drops(ant, dead_grid, dead_ants, vision)
-        if ant.is_carrying == False: ants.remove(ant)
+        if ant.is_carrying == False: 
+            ants.remove(ant)
+            grid[ant.x][ant.y] = 0
