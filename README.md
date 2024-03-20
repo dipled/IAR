@@ -1,3 +1,3 @@
 # IAR
 
-O Parpinelli me odeia
+O Parpinelli nao me odeia mais
