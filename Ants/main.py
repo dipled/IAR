@@ -19,7 +19,7 @@ grid_cell_width = 10
 ant_height = 10
 ant_width = 10
 
-ants = [Ant(grid) for i in range(5)]
+ants = [Ant(grid) for i in range(100)]
 dead_ants = [DeadAnt(dead_grid) for i in range(500)]
 
 

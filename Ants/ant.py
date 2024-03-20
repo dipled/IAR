@@ -1,8 +1,7 @@
 import random
 
-
 class Ant:
-    def __init__(self , grid = list[list[int]]):
+    def __init__(self , grid: list[list[int]]):
         
         self.x = -1
         self.y = -1
@@ -21,7 +20,7 @@ class Ant:
                 self.exists = True
 
 class DeadAnt:
-    def __init__(self, grid = list[list[int]]):
+    def __init__(self, grid: list[list[int]]):
         
         self.x = -1
         self.y = -1

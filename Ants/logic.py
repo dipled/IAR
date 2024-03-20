@@ -114,7 +114,7 @@ def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_g
                     drops(ant, dead_grid, dead_ants)
 
         if direction == 2:
-            if ant.x == height-1:
+            if ant.x == width-1:
 
                 move_border(ant, grid, direction, height, width)
                 get_vision(ant, dead_grid, height, width)
@@ -148,7 +148,7 @@ def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_g
                     drops(ant, dead_grid, dead_ants)
 
         if direction == 4:
-            if ant.y == width-1:
+            if ant.y == height-1:
                 move_border(ant, grid, direction, height, width)
                 get_vision(ant, dead_grid, height, width)
                 picks(ant, dead_grid, dead_ants)
