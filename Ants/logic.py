@@ -93,7 +93,7 @@ def move_border(ant, grid, direction, height, width):
             grid[ant.x][ant.y] = 1
 
 
-def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_grid: list[list[int]], height, width, vision):
+def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_grid: list[list[int]], height, width, vision, end_of_program = False):
     cont = 0
     for ant in ants:
         direction = random.randint(1, 4)
@@ -163,8 +163,9 @@ def move(ants: list[Ant], dead_ants:list[DeadAnt], grid: list[list[int]], dead_g
                     get_vision(ant, dead_grid, height, width, vision)
                     picks(ant, dead_grid, dead_ants, vision)
                     drops(ant, dead_grid, dead_ants, vision)
-
-        cont = cont+1
+        if ant.is_carrying == False and end_of_program == True: 
+            ants.remove(ant)
+            grid[ant.x][ant.y] = 0
 
 
 

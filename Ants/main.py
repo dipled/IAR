@@ -31,8 +31,6 @@ def createSquare(x, y, color):
 
 def show_grid():
     y = 0
-
-
     for row in grid:
         x = 0  
         row_len = 0
@@ -64,7 +62,7 @@ def show_grid():
 if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
-    iterations = 100
+    iterations = 200_000
     done = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()
@@ -79,7 +77,7 @@ if __name__ == '__main__':
         move(ants, dead_ants, grid, dead_grid, height, width, vision)
         show_grid()
     while len(ants) > 0 and done == False:
-        moveEnd(ants,dead_ants,grid,dead_grid,height,width,vision)
+        move(ants, dead_ants, grid, dead_grid, height, width, vision, True)
         show_grid()
 
     #show_grid()
