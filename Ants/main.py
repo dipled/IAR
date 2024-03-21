@@ -63,7 +63,6 @@ if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
     iterations = 200_000
-    iterations = 200_000
     done = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()

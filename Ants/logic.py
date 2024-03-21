@@ -4,7 +4,7 @@ from ant import Ant, DeadAnt
 def picks(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt], vision):
     #odds = 1 - 1/50 * (ant.dead_ants_around**2)/vision
     #odds = 1 - ((ant.dead_ants_around/(vision*8))**3)
-    odds = 1 - ((ant.dead_ants_around/(vision*8))**2)
+    odds = 1 - ((ant.dead_ants_around/(vision*8))**2) #miguel odds ao quadrado nível arcano 
     if random.uniform(0, 1) <= odds and not ant.is_carrying and dead_grid[ant.x][ant.y] == 2:
         ant.is_carrying = True
         dead_grid[ant.x][ant.y] = 0
@@ -16,7 +16,7 @@ def picks(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt], vision
 def drops(ant: Ant, dead_grid: list[list[int]], dead_ants: list[DeadAnt], vision):
     #odds = 1/50 * (ant.dead_ants_around**2)/vision
     #odds = ((ant.dead_ants_around/(vision*8))**3)
-    odds = ((ant.dead_ants_around/(vision*8))**2)
+    odds = ((ant.dead_ants_around/(vision*8))**2) #miguel odds ao quadrado nível arcano 
 
     if random.uniform(0, 1) <= odds and ant.is_carrying and dead_grid[ant.x][ant.y]!=2:
         ant.is_carrying = False
