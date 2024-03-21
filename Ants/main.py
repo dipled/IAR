@@ -5,7 +5,7 @@ from ant import *
 from logic import *
 
 
-vision = 5 #usa isso
+vision = 1 #usa isso
 color = (255, 0, 0)
 gridDisplay = pygame.display.set_mode((700, 700))
 
@@ -64,13 +64,13 @@ def show_grid():
 if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
-    iterations = 1_000_000
+    iterations = 200_000
     done = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()
     pygame.image.save(gridDisplay, "experimento_visao_{}_iteracoes_{}_inicial.png".format(vision, iterations))
 
-    for c in range(0,iterations):
+    for c in range(0, iterations):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -83,6 +83,13 @@ if __name__ == '__main__':
         #show_grid()
 
     show_grid()
+    # dead_ant_count = 0
+    # size = len(dead_grid)
+    # for i in range(0, size):
+    #     for j in range(0, size):
+    #         if dead_grid[i][j] == 2:
+    #             dead_ant_count += 1
+    # print(dead_ant_count)
     pygame.image.save(gridDisplay, "experimento_visao_{}_iteracoes_{}_final.png".format(vision, iterations))
     # while True:
     #chama funcao que faz as formigas vazias sumirem e as formigas carregadas rodarem ate dropar
