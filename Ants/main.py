@@ -62,7 +62,7 @@ def show_grid():
 if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
-    iterations = 200_000
+    iterations = 500_000
     user_quit = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()
@@ -75,7 +75,9 @@ if __name__ == '__main__':
                     user_quit = True
         if user_quit == True:break
         move(ants, dead_ants, grid, dead_grid, height, width, vision)
-        #show_grid()
+        if(c%1000 == 0):
+            show_grid()
+        # show_grid()
     while len(ants) > 0 and user_quit == False:
         move(ants, dead_ants, grid, dead_grid, height, width, vision, True)
         show_grid()
