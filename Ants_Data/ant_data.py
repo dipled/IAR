@@ -68,8 +68,8 @@ def createSquare(x, y, color):
                      x, y, grid_cell_height, grid_cell_width])
 
 
-def get_element(gird, line, row):
-    return gird[line % height][row % width]
+def get_element(grid, line, row):
+    return grid[line % height][row % width]
 
 
 def data_similarity(grid, ant):
@@ -340,11 +340,12 @@ def show_grid():
 
 
 if __name__ == '__main__':
-    iterations = 500_000
+    iterations = 2_000_000
     done = False
     contf = 0
     show_grid()
     pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_inicial.png".format(vision, iterations))
+    random.seed(str(datetime.datetime.now()))
 
     for i in range(0, iterations):
         for event in pygame.event.get():
@@ -352,10 +353,14 @@ if __name__ == '__main__':
                 if event.key == pygame.K_ESCAPE:
                     done = True
         if done == True:break
-        random.seed(str(datetime.datetime.now()))
         move(ants, grid)
-        show_grid()
+        # show_grid()
+        if i % 1000 == 0:
+            show_grid()
+
+
     while len(ants) > 0 and not done:
+        pygame.event.get()
         move(ants, grid, True)
         show_grid()
     # show_grid()

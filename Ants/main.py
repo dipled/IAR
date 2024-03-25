@@ -79,6 +79,7 @@ if __name__ == '__main__':
             show_grid()
         # show_grid()
     while len(ants) > 0 and user_quit == False:
+        pygame.event.get()
         move(ants, dead_ants, grid, dead_grid, height, width, vision, True)
         show_grid()
 
