@@ -10,9 +10,10 @@ grid_display.fill(color)
 height = 60
 vision = 1
 width = 60
-α = 30
+α = 10
+
 k1 = 0.25
-k2 = 0.9
+k2 = 0.8
 grid = [[0 for _ in range(width)] for _ in range(height)]
 data_grid = [[0 for _ in range(width)] for _ in range(height)]
 
@@ -89,9 +90,9 @@ def data_similarity(grid, ant):
 
         sum_distance += sum_element
 
-    similarity = sum_distance/(9)
+    similarity = sum_distance
     if similarity > 0:
-        return similarity
+        return similarity/(ant.data_around ** 2)
     else:
         return 0
 
@@ -354,12 +355,7 @@ if __name__ == '__main__':
         random.seed(str(datetime.datetime.now()))
         move(ants, grid)
         show_grid()
-    while len(ants) > 0:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    done = True
-        if done == True:break        
+    while len(ants) > 0 and not done:
         move(ants, grid, True)
         show_grid()
     # show_grid()
