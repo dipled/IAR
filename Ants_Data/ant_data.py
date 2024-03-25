@@ -340,7 +340,7 @@ def show_grid():
 
 
 if __name__ == '__main__':
-    iterations = 1_000
+    iterations = 500_000
     done = False
     contf = 0
     show_grid()
