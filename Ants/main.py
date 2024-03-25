@@ -31,8 +31,6 @@ def createSquare(x, y, color):
 
 def show_grid():
     y = 0
-
-
     for row in grid:
         x = 0  
         row_len = 0
@@ -64,22 +62,24 @@ def show_grid():
 if __name__ == '__main__':
     
     random.seed(str(datetime.datetime.now()))
-    iterations = 100
-    done = False
+    iterations = 500_000
+    user_quit = False
     move(ants, dead_ants, grid, dead_grid, height, width, vision)
     show_grid()
     pygame.image.save(gridDisplay, "experimento_visao_{}_iteracoes_{}_inicial.png".format(vision, iterations))
 
-    for c in range(0,iterations):
+    for c in range(0, iterations):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    done = True
-        if done == True:break
+                    user_quit = True
+        if user_quit == True:break
         move(ants, dead_ants, grid, dead_grid, height, width, vision)
-        show_grid()
-    while len(ants) > 0 and done == False:
-        moveEnd(ants,dead_ants,grid,dead_grid,height,width,vision)
+        if(c%1000 == 0):
+            show_grid()
+        # show_grid()
+    while len(ants) > 0 and user_quit == False:
+        move(ants, dead_ants, grid, dead_grid, height, width, vision, True)
         show_grid()
 
     #show_grid()
