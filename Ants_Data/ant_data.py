@@ -95,7 +95,6 @@ def data_similarity(grid, ant):
     else:
         return 0
 
-
 def picks(ant: Ant, grid):
     if not ant.is_carrying and (data_grid[ant.x][ant.y]) != 0:
         fx = data_similarity(grid, ant)
@@ -340,7 +339,7 @@ def show_grid():
 
 
 if __name__ == '__main__':
-    iterations = 500_000
+    iterations = 1_000
     done = False
     contf = 0
     show_grid()
@@ -356,6 +355,11 @@ if __name__ == '__main__':
         move(ants, grid)
         show_grid()
     while len(ants) > 0:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    done = True
+        if done == True:break        
         move(ants, grid, True)
         show_grid()
     # show_grid()
