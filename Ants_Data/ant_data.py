@@ -10,10 +10,9 @@ grid_display.fill(color)
 height = 60
 vision = 1
 width = 60
-α = 10
-
-k1 = 0.25
-k2 = 0.8
+α = 30
+k1 = 0.35
+k2 = 0.65
 grid = [[0 for _ in range(width)] for _ in range(height)]
 data_grid = [[0 for _ in range(width)] for _ in range(height)]
 
@@ -22,7 +21,7 @@ grid_cell_width = 10
 
 ant_height = 10
 ant_width = 10
-
+num_ants = 25
 
 class Ant:
     def __init__(self, x, y, grid):
@@ -60,7 +59,8 @@ for x in arc:
     data_txt = x.split("/")
     data1 = Data(data_grid, float(data_txt[0]), float(data_txt[1]), int(data_txt[2]))
     data_list.append(data1)
-ants = [Ant(1, 2, grid) for _ in range(100)]
+
+ants = [Ant(1, 2, grid) for _ in range(num_ants)]
 
 
 def createSquare(x, y, color):
@@ -72,9 +72,9 @@ def get_element(grid, line, row):
     return grid[line % height][row % width]
 
 
-def data_similarity(grid, ant):
+def data_similarity(grid, ant: Ant):
     elements = get_elements_around(ant, data_grid)
-    
+    # print(ant.data_around)
     carried_data = ant.carrying
     local_data = data_grid[ant.x][ant.y]
     sum_distance = 0
@@ -91,8 +91,11 @@ def data_similarity(grid, ant):
         sum_distance += sum_element
 
     similarity = sum_distance
+    # print(ant.data_around)
     if similarity > 0:
-        return similarity/(ant.data_around ** 2)
+        # print(ant.data_around)
+        return similarity/(3 ** 2)
+        # return similarity/(ant.data_around ** 2)
     else:
         return 0
 
@@ -130,9 +133,9 @@ def drops(ant: Ant, grid):
 
 
 def get_elements_around(ant: Ant, grid):
+    ant.data_around = 0
+    next_list = []
     for i in range(1,vision + 1):
-        next_list = []
-        ant.data_around = 0
         next = get_element(grid, ant.x - i, ant.y)
         if next != 0:
             next_list.append(next)
@@ -165,7 +168,8 @@ def get_elements_around(ant: Ant, grid):
         if next != 0:
             next_list.append(next)
             ant.data_around = ant.data_around + 1
-        return next_list
+    # print(ant.data_around)
+    return next_list
 
 def update_data(data_list, grid):
     for data in data_list:
@@ -346,7 +350,6 @@ if __name__ == '__main__':
     show_grid()
     pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_inicial.png".format(vision, iterations))
     random.seed(str(datetime.datetime.now()))
-
     for i in range(0, iterations):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
