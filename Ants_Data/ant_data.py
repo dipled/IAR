@@ -10,10 +10,10 @@ grid_display.fill(color)
 height = 60
 vision = 1
 width = 60
-α = 5
+α = 10
 
-k1 = 0.1
-k2 = 0.9
+k1 = 0.25
+k2 = 0.8
 grid = [[0 for _ in range(width)] for _ in range(height)]
 data_grid = [[0 for _ in range(width)] for _ in range(height)]
 
