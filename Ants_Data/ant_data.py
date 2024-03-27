@@ -99,7 +99,7 @@ def data_similarity(grid, ant: Ant):
     else:
         return 0
 
-def picks(ant: Ant, grid):
+def pick(ant: Ant, grid):
     if not ant.is_carrying and (data_grid[ant.x][ant.y]) != 0:
         fx = data_similarity(grid, ant)
         odds = (k1/(k1+fx)) ** 2
@@ -111,9 +111,9 @@ def picks(ant: Ant, grid):
                     data.carrier = ant
                     data.carried = True
                     ant.carrying = data
+        
 
-
-def drops(ant: Ant, grid):
+def drop(ant: Ant, grid):
     # odds = ant.data_around / 7.7
     if ant.is_carrying and (data_grid[ant.x][ant.y]) == 0:
         fx = data_similarity(grid, ant)
@@ -214,8 +214,8 @@ def move(ants: list[Ant], grid, end_of_program = False):
 
                 move_border(ant, grid, direction)
                 # get_elements_around(ant, data_grid)
-                picks(ant, grid)
-                drops(ant, grid)
+                pick(ant, grid)
+                drop(ant, grid)
 
             else:
                 if grid[ant.x - 1][ant.y] != 1:
@@ -223,16 +223,16 @@ def move(ants: list[Ant], grid, end_of_program = False):
                     ant.x = ant.x - 1
                     grid[ant.x][ant.y] = 1
                     # get_elements_around(ant, data_grid)
-                    picks(ant, grid)
-                    drops(ant, grid)
+                    pick(ant, grid)
+                    drop(ant, grid)
 
         if direction == 2:
             if ant.x == height - 1:
 
                 move_border(ant, grid, direction)
 
-                picks(ant, grid)
-                drops(ant, grid)
+                pick(ant, grid)
+                drop(ant, grid)
 
             else:
                 if grid[ant.x + 1][ant.y] != 1:
@@ -240,16 +240,16 @@ def move(ants: list[Ant], grid, end_of_program = False):
                     ant.x = ant.x + 1
                     grid[ant.x][ant.y] = 1
                     # get_elements_around(ant, data_grid)
-                    picks(ant, grid)
-                    drops(ant, grid)
+                    pick(ant, grid)
+                    drop(ant, grid)
 
         if direction == 3:
             if ant.y == 0:
 
                 move_border(ant, grid, direction)
                 # get_elements_around(ant, data_grid)
-                picks(ant, grid)
-                drops(ant, grid)
+                pick(ant, grid)
+                drop(ant, grid)
 
             else:
                 if grid[ant.x][ant.y - 1] != 1:
@@ -257,15 +257,15 @@ def move(ants: list[Ant], grid, end_of_program = False):
                     ant.y = ant.y - 1
                     grid[ant.x][ant.y] = 1
                     # get_elements_around(ant, data_grid)
-                    picks(ant, grid)
-                    drops(ant, grid)
+                    pick(ant, grid)
+                    drop(ant, grid)
 
         if direction == 4:
             if ant.y == width - 1:
                 move_border(ant, grid, direction)
                 # get_elements_around(ant, data_grid)
-                picks(ant, grid)
-                drops(ant, grid)
+                pick(ant, grid)
+                drop(ant, grid)
 
             else:
                 if grid[ant.x][ant.y + 1] != 1:
@@ -273,9 +273,9 @@ def move(ants: list[Ant], grid, end_of_program = False):
                     ant.y = ant.y + 1
                     grid[ant.x][ant.y] = 1
                     # get_elements_around(ant, data_grid)
-                    picks(ant, grid)
-                    drops(ant, grid)
-        if ant.is_carrying == False and end_of_program == True:
+                    pick(ant, grid)
+                    drop(ant, grid)
+        if ant.carrying == None and end_of_program == True:
             ants.remove(ant)
             grid[ant.x][ant.y] = 0
         # cont = cont + 1
@@ -358,8 +358,8 @@ if __name__ == '__main__':
         if done == True:break
         move(ants, grid)
         # show_grid()
-        if i % 1000 == 0:
-            show_grid()
+        # if i % 1000 == 0:
+        #     show_grid()
 
 
     while len(ants) > 0 and not done:
