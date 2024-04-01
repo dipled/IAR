@@ -4,12 +4,13 @@ import datetime
 import math
 
 
-grid_display = pygame.display.set_mode((600, 600))
+grid_display = pygame.display.set_mode((500, 500))
 color = (255, 0, 0)
 grid_display.fill(color)
-height = 60
+height = 50
 vision = 1
-width = 60
+width = 50
+α = 0.9732
 α = 30
 k1 = 0.35
 k2 = 0.65
@@ -21,7 +22,7 @@ grid_cell_width = 10
 
 ant_height = 10
 ant_width = 10
-num_ants = 25
+num_ants = 10
 
 class Ant:
     def __init__(self, x, y, grid):
@@ -94,7 +95,7 @@ def data_similarity(grid, ant: Ant):
     # print(ant.data_around)
     if similarity > 0:
         # print(ant.data_around)
-        return similarity/(3 ** 2)
+        return similarity/(8)
         # return similarity/(ant.data_around ** 2)
     else:
         return 0
@@ -344,11 +345,18 @@ def show_grid():
 
 
 if __name__ == '__main__':
-    iterations = 2_000_000
+    iterations = 4_000_000
     done = False
     contf = 0
     show_grid()
-    pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_inicial.png".format(vision, iterations))
+    pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_alpha_{}_k1_{}_k2_{}_grid_{}_ants_{}_inicial.png".format(vision, 
+                                                                                                                                        iterations,
+                                                                                                                                        α,
+                                                                                                                                        k1,
+                                                                                                                                        k2,
+                                                                                                                                        height,
+                                                                                                                                        num_ants
+                                                                                                                                        ))
     random.seed(str(datetime.datetime.now()))
     for i in range(0, iterations):
         for event in pygame.event.get():
@@ -358,16 +366,23 @@ if __name__ == '__main__':
         if done == True:break
         move(ants, grid)
         # show_grid()
-        # if i % 1000 == 0:
-        #     show_grid()
+        if i % 1000 == 0:
+            show_grid()
 
 
     while len(ants) > 0 and not done:
         pygame.event.get()
         move(ants, grid, True)
-        show_grid()
-    # show_grid()
+        # show_grid()
+    show_grid()
 
-    pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_final.png".format(vision, iterations))
 
+    pygame.image.save(grid_display, "experimento_visao_{}_iteracoes_{}_alpha_{}_k1_{}_k2_{}_grid_{}_ants_{}_final.png".format(vision, 
+                                                                                                                                        iterations,
+                                                                                                                                        α,
+                                                                                                                                        k1,
+                                                                                                                                        k2,
+                                                                                                                                        height,
+                                                                                                                                        num_ants
+                                                                                                                                        ))
     pygame.quit()
